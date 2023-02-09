@@ -1,8 +1,8 @@
 import React from "react";
-import { Text, View, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { RenderItem, ScaleDecorator } from "react-native-draggable-flatlist";
 import Icon from "react-native-vector-icons/Ionicons";
-import { styles } from "./App";
+
 export type ItemObject = {
   key: string;
   label: string;
@@ -39,3 +39,18 @@ export const Item: RenderItem<ItemObject> = ({ item, drag, isActive }) => {
     </ScaleDecorator>
   );
 };
+const styles = StyleSheet.create({
+  view: {
+    flex: 1,
+  },
+  rowItem: {
+    height: 67,
+    alignItems: "flex-start",
+    justifyContent: "center",
+  },
+  text: {
+    color: "black",
+    fontSize: 16,
+    textAlign: "left",
+  },
+});
