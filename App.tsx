@@ -5,6 +5,7 @@ import DraggableFlatList, {
   ScaleDecorator,
 } from "react-native-draggable-flatlist";
 
+import Icon from "react-native-vector-icons/Ionicons";
 const NUM_ITEMS = 10;
 function getColor(i: number) {
   const multiplier = 255 / (NUM_ITEMS - 1);
@@ -17,7 +18,6 @@ type Item = {
   label: string;
   height: number;
   width: number;
-  backgroundColor: string;
 };
 
 const initialData: Item[] = [...Array(NUM_ITEMS)].map((d, index) => {
@@ -27,7 +27,6 @@ const initialData: Item[] = [...Array(NUM_ITEMS)].map((d, index) => {
     label: String(index) + "",
     height: 100,
     width: 60 + Math.random() * 40,
-    backgroundColor,
   };
 });
 
@@ -40,23 +39,31 @@ export default function App() {
         <TouchableOpacity
           onLongPress={drag}
           disabled={isActive}
-          style={[styles.rowItem, { backgroundColor: item.backgroundColor }]}
+          style={[styles.rowItem, { backgroundColor: "white" }]}
         >
-          <Text style={styles.text}>{item.label}</Text>
+          <View
+            style={{
+              paddingLeft: 18,
+              flexDirection: "row",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Icon name="ellipse" color="#ec6337" size={20} />
+            <Text style={styles.text}>{item.label}</Text>
+          </View>
         </TouchableOpacity>
       </ScaleDecorator>
     );
   };
 
   return (
-    <View style={styles.view}>
-      <DraggableFlatList
-        data={data}
-        onDragEnd={({ data }) => setData(data)}
-        keyExtractor={(item) => item.key}
-        renderItem={renderItem}
-      />
-    </View>
+    <DraggableFlatList
+      data={data}
+      onDragEnd={({ data }) => setData(data)}
+      keyExtractor={(item) => item.key}
+      renderItem={renderItem}
+    />
   );
 }
 
@@ -66,13 +73,12 @@ const styles = StyleSheet.create({
   },
   rowItem: {
     height: 67,
-    alignItems: "center",
+    alignItems: "flex-start",
     justifyContent: "center",
   },
   text: {
-    color: "white",
-    fontSize: 24,
-    fontWeight: "bold",
-    textAlign: "center",
+    color: "black",
+    fontSize: 16,
+    textAlign: "left",
   },
 });
