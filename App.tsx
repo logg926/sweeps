@@ -44,19 +44,3 @@ export default function App() {
     </NavigationContainer>
   );
 }
-
-export const styles = StyleSheet.create({
-  view: {
-    flex: 1,
-  },
-  rowItem: {
-    height: 67,
-    alignItems: "flex-start",
-    justifyContent: "center",
-  },
-  text: {
-    color: "black",
-    fontSize: 16,
-    textAlign: "left",
-  },
-});

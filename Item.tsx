@@ -1,8 +1,15 @@
 import React from "react";
-import { Text, View, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Animated,
+} from "react-native";
 import { RenderItem, ScaleDecorator } from "react-native-draggable-flatlist";
 import Icon from "react-native-vector-icons/Ionicons";
-import { styles } from "./App";
+import Swipeable from "react-native-gesture-handler/Swipeable";
+import { RectButton } from "react-native-gesture-handler";
 export type ItemObject = {
   key: string;
   label: string;
@@ -13,29 +20,83 @@ export type ItemObject = {
 export const Item: RenderItem<ItemObject> = ({ item, drag, isActive }) => {
   return (
     <ScaleDecorator>
-      <TouchableOpacity
-        onLongPress={drag}
-        disabled={isActive}
-        style={[styles.rowItem, { backgroundColor: "white" }]}
+      <Swipeable
+        renderLeftActions={(
+          _progress: Animated.AnimatedInterpolation<number>,
+          dragX: Animated.AnimatedInterpolation<number>
+        ) => {
+          const trans = dragX.interpolate({
+            inputRange: [0, 50, 100, 101],
+            outputRange: [-20, 0, 0, 1],
+            extrapolate: "clamp",
+          });
+          return (
+            <RectButton
+              style={{
+                flex: 1,
+                backgroundColor: "#497AFC",
+                justifyContent: "center",
+              }}
+              // onPress={this.close}
+            >
+              <Animated.Text
+                style={[
+                  {
+                    color: "white",
+                    fontSize: 16,
+                    backgroundColor: "transparent",
+                    padding: 10,
+                  },
+                  {
+                    transform: [{ translateX: trans }],
+                  },
+                ]}
+              >
+                Archive
+              </Animated.Text>
+            </RectButton>
+          );
+        }}
       >
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
+        <TouchableOpacity
+          onLongPress={drag}
+          disabled={isActive}
+          style={[styles.rowItem, { backgroundColor: "white" }]}
         >
           <View
             style={{
-              paddingLeft: 18,
-              paddingRight: 18,
+              flexDirection: "row",
+              justifyContent: "center",
+              alignItems: "center",
             }}
           >
-            <Icon name="ellipse" color="#ec6337" size={20} />
+            <View
+              style={{
+                paddingLeft: 18,
+                paddingRight: 18,
+              }}
+            >
+              <Icon name="ellipse" color="#ec6337" size={20} />
+            </View>
+            <Text style={styles.text}>{item.label}</Text>
           </View>
-          <Text style={styles.text}>{item.label}</Text>
-        </View>
-      </TouchableOpacity>
+        </TouchableOpacity>
+      </Swipeable>
     </ScaleDecorator>
   );
 };
+const styles = StyleSheet.create({
+  view: {
+    flex: 1,
+  },
+  rowItem: {
+    height: 67,
+    alignItems: "flex-start",
+    justifyContent: "center",
+  },
+  text: {
+    color: "black",
+    fontSize: 16,
+    textAlign: "left",
+  },
+});
