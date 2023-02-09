@@ -1,17 +1,17 @@
 import React, { useState } from "react";
-import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  Text,
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  SafeAreaView,
+} from "react-native";
 import DraggableFlatList, {
   RenderItem,
   ScaleDecorator,
 } from "react-native-draggable-flatlist";
 
 import Icon from "react-native-vector-icons/Ionicons";
-const NUM_ITEMS = 10;
-function getColor(i: number) {
-  const multiplier = 255 / (NUM_ITEMS - 1);
-  const colorVal = i * multiplier;
-  return `rgb(${colorVal}, ${Math.abs(128 - colorVal)}, ${255 - colorVal})`;
-}
 
 type Item = {
   key: string;
@@ -20,15 +20,16 @@ type Item = {
   width: number;
 };
 
-const initialData: Item[] = [...Array(NUM_ITEMS)].map((d, index) => {
-  const backgroundColor = getColor(index);
-  return {
-    key: `item-${index}`,
-    label: String(index) + "",
-    height: 100,
-    width: 60 + Math.random() * 40,
-  };
-});
+const initialData: Item[] = ["To do 1", "Build this app"].map(
+  (label, index) => {
+    return {
+      key: `item-${index}`,
+      label: label,
+      height: 100,
+      width: 60 + Math.random() * 40,
+    };
+  }
+);
 
 export default function App() {
   const [data, setData] = useState(initialData);
@@ -43,13 +44,19 @@ export default function App() {
         >
           <View
             style={{
-              paddingLeft: 18,
               flexDirection: "row",
               justifyContent: "center",
               alignItems: "center",
             }}
           >
-            <Icon name="ellipse" color="#ec6337" size={20} />
+            <View
+              style={{
+                paddingLeft: 18,
+                paddingRight: 18,
+              }}
+            >
+              <Icon name="ellipse" color="#ec6337" size={20} />
+            </View>
             <Text style={styles.text}>{item.label}</Text>
           </View>
         </TouchableOpacity>
@@ -58,12 +65,24 @@ export default function App() {
   };
 
   return (
-    <DraggableFlatList
-      data={data}
-      onDragEnd={({ data }) => setData(data)}
-      keyExtractor={(item) => item.key}
-      renderItem={renderItem}
-    />
+    <SafeAreaView>
+      <Icon name="time-outline" color="black" size={36} />
+
+      <Icon name="menu-outline" color="black" size={36} />
+
+      <Icon name="checkmark-outline" color="black" size={36} />
+
+      <Icon name="time" color="black" size={36} />
+
+      <Icon name="menu" color="black" size={36} />
+      <Icon name="checkmark-sharp" color="black" size={36} />
+      <DraggableFlatList
+        data={data}
+        onDragEnd={({ data }) => setData(data)}
+        keyExtractor={(item) => item.key}
+        renderItem={renderItem}
+      />
+    </SafeAreaView>
   );
 }
 
