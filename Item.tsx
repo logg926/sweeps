@@ -10,7 +10,7 @@ import { RenderItem, ScaleDecorator } from "react-native-draggable-flatlist";
 import Icon from "react-native-vector-icons/Ionicons";
 import Swipeable from "react-native-gesture-handler/Swipeable";
 import { RectButton } from "react-native-gesture-handler";
-import { RED } from "./color";
+import { RED } from "./constant";
 
 export type ItemObject = {
   key: string;

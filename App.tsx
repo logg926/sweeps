@@ -5,21 +5,16 @@ import {
   NavigationContainer,
   useNavigation,
 } from "@react-navigation/native";
-import {
-  StyleSheet,
-  SafeAreaView,
-  useWindowDimensions,
-  View,
-} from "react-native";
+import { StyleSheet, SafeAreaView, useWindowDimensions } from "react-native";
 import DraggableFlatList, { RenderItem } from "react-native-draggable-flatlist";
 
-import Icon from "react-native-vector-icons/Ionicons";
 import { Item, ItemObject } from "./Item";
 import {
   createNativeStackNavigator,
   NativeStackNavigationProp,
 } from "@react-navigation/native-stack";
-import { RED } from "./color";
+import { ROUTE } from "./constant";
+import { TopHeader } from "./TopHeader";
 
 const initialData: ItemObject[] = ["To do 1", "Build this app"].map(
   (label, index) => {
@@ -35,48 +30,9 @@ const initialData: ItemObject[] = ["To do 1", "Build this app"].map(
 const Backlog = () => {
   const [data, setData] = useState(initialData);
 
-  const navigation = useNavigation<NativeStackNavigationProp<any>>();
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <View
-        style={{
-          paddingHorizontal: 60,
-          paddingVertical: 10,
-          flexDirection: "row",
-          flexWrap: "wrap",
-          justifyContent: "space-evenly",
-        }}
-      >
-        <Icon
-          name="time-outline"
-          color={RED}
-          size={36}
-          onPress={() => {
-            navigation.navigate("Backlog");
-          }}
-        />
-
-        <Icon
-          name="menu-outline"
-          color="black"
-          size={36}
-          onPress={() => {
-            navigation.navigate("Doing");
-          }}
-        />
-
-        <Icon
-          name="checkmark-outline"
-          color="black"
-          size={36}
-          onPress={() => {
-            navigation.navigate("Done");
-          }}
-        />
-      </View>
-      {/* <Icon name="time" color="black" size={36} />
-      <Icon name="menu" color="black" size={36} />
-      <Icon name="checkmark-sharp" color="black" size={36} /> */}
+      <TopHeader />
       <DraggableFlatList
         data={data}
         // style={{ flex: 1 }}
@@ -109,14 +65,14 @@ export default function App() {
       }}
     >
       <Stack.Navigator
-        initialRouteName="Backlog"
+        initialRouteName={ROUTE.Backlog}
         screenOptions={{
           headerShown: false,
         }}
       >
-        <Stack.Screen name="Backlog" component={Backlog} />
-        <Stack.Screen name="Doing" component={Backlog} />
-        <Stack.Screen name="Done" component={Backlog} />
+        <Stack.Screen name={ROUTE.Backlog} component={Backlog} />
+        <Stack.Screen name={ROUTE.Doing} component={Backlog} />
+        <Stack.Screen name={ROUTE.Done} component={Backlog} />
       </Stack.Navigator>
     </NavigationContainer>
   );
