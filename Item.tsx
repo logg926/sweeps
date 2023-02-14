@@ -10,6 +10,8 @@ import { RenderItem, ScaleDecorator } from "react-native-draggable-flatlist";
 import Icon from "react-native-vector-icons/Ionicons";
 import Swipeable from "react-native-gesture-handler/Swipeable";
 import { RectButton } from "react-native-gesture-handler";
+import { RED } from "./color";
+
 export type ItemObject = {
   key: string;
   label: string;
@@ -34,7 +36,7 @@ export const Item: RenderItem<ItemObject> = ({ item, drag, isActive }) => {
             <RectButton
               style={{
                 flex: 1,
-                backgroundColor: "#497AFC",
+                backgroundColor: RED,
                 justifyContent: "center",
               }}
               // onPress={this.close}
@@ -76,7 +78,7 @@ export const Item: RenderItem<ItemObject> = ({ item, drag, isActive }) => {
                 paddingRight: 18,
               }}
             >
-              <Icon name="ellipse" color="#ec6337" size={20} />
+              <Icon name="ellipse" color={RED} size={20} />
             </View>
             <Text style={styles.text}>{item.label}</Text>
           </View>
