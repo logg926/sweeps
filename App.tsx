@@ -15,6 +15,7 @@ import {
 } from "@react-navigation/native-stack";
 import { ROUTE } from "./constant";
 import { TopHeader } from "./TopHeader";
+import { useStore } from "./storage";
 
 const initialData: ItemObject[] = ["To do 1", "Build this app"].map(
   (label, index) => {
@@ -28,7 +29,21 @@ const initialData: ItemObject[] = ["To do 1", "Build this app"].map(
 );
 
 const Backlog = () => {
-  const [data, setData] = useState(initialData);
+  const [backlog, add, setBacklog] = useStore((state) => [
+    state.doing,
+    state.add,
+    state.setBacklog,
+  ]);
+  // const [data, setData] = useState(initialData);
+
+  const data = backlog.map((task, index) => {
+    return {
+      key: `item-${index}`,
+      label: task.name,
+      height: 100,
+      width: 60 + Math.random() * 40,
+    };
+  });
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -36,7 +51,15 @@ const Backlog = () => {
       <DraggableFlatList
         data={data}
         // style={{ flex: 1 }}
-        onDragEnd={({ data }) => setData(data)}
+        onDragEnd={({ data }) =>
+          setBacklog(
+            data.map((value) => {
+              return {
+                name: value.label,
+              };
+            })
+          )
+        }
         keyExtractor={(item) => item.key}
         renderItem={Item}
       />
