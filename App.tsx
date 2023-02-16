@@ -6,7 +6,7 @@ import {
   useNavigation,
 } from "@react-navigation/native";
 import { SafeAreaView, useWindowDimensions, View } from "react-native";
-import DraggableFlatList, {
+import {
   NestableDraggableFlatList,
   NestableScrollContainer,
 } from "react-native-draggable-flatlist";
@@ -106,6 +106,7 @@ const Doing = () => {
     </SafeAreaView>
   );
 };
+
 const Stack = createNativeStackNavigator();
 export default function App() {
   const layout = useWindowDimensions();
@@ -124,6 +125,8 @@ export default function App() {
         initialRouteName={ROUTE.Backlog}
         screenOptions={{
           headerShown: false,
+          animation: "fade",
+          animationDuration: 100,
         }}
       >
         <Stack.Screen name={ROUTE.Backlog} component={Backlog} />
