@@ -5,12 +5,7 @@ import {
   NavigationContainer,
   useNavigation,
 } from "@react-navigation/native";
-import {
-  SafeAreaView,
-  ScrollView,
-  useWindowDimensions,
-  View,
-} from "react-native";
+import { SafeAreaView, useWindowDimensions, View } from "react-native";
 import DraggableFlatList, {
   NestableDraggableFlatList,
   NestableScrollContainer,
