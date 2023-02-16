@@ -10,16 +10,12 @@ import { RenderItem, ScaleDecorator } from "react-native-draggable-flatlist";
 import Icon from "react-native-vector-icons/Ionicons";
 import Swipeable from "react-native-gesture-handler/Swipeable";
 import { RectButton } from "react-native-gesture-handler";
-import { RED } from "./constant";
+import { GREEN, RED, ROUTE, YELLOW } from "./constant";
+import { Task } from "./storage";
+import { useRoute } from "@react-navigation/native";
 
-export type ItemObject = {
-  key: string;
-  label: string;
-  height: number;
-  width: number;
-};
-
-export const Item: RenderItem<ItemObject> = ({ item, drag, isActive }) => {
+export const Item: RenderItem<Task> = ({ item, drag, isActive }) => {
+  const route = useRoute();
   return (
     <ScaleDecorator>
       <Swipeable
@@ -78,9 +74,19 @@ export const Item: RenderItem<ItemObject> = ({ item, drag, isActive }) => {
                 paddingRight: 18,
               }}
             >
-              <Icon name="ellipse" color={RED} size={20} />
+              <Icon
+                name="ellipse"
+                color={
+                  route.name === ROUTE.Backlog
+                    ? RED
+                    : route.name === ROUTE.Doing
+                    ? YELLOW
+                    : GREEN
+                }
+                size={20}
+              />
             </View>
-            <Text style={styles.text}>{item.label}</Text>
+            <Text style={styles.text}>{item.name}</Text>
           </View>
         </TouchableOpacity>
       </Swipeable>
