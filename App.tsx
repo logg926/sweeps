@@ -5,8 +5,16 @@ import {
   NavigationContainer,
   useNavigation,
 } from "@react-navigation/native";
-import { SafeAreaView, useWindowDimensions } from "react-native";
-import DraggableFlatList from "react-native-draggable-flatlist";
+import {
+  SafeAreaView,
+  ScrollView,
+  useWindowDimensions,
+  View,
+} from "react-native";
+import DraggableFlatList, {
+  NestableDraggableFlatList,
+  NestableScrollContainer,
+} from "react-native-draggable-flatlist";
 import { v4 as uuidv4 } from "uuid";
 import { Item } from "./Item";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -23,9 +31,11 @@ const TodoList = ({
   setList: (taskArray: TaskArray) => void;
 }) => {
   return (
-    <DraggableFlatList
+    <NestableDraggableFlatList
       data={taskList}
-      // style={{ flex: 1 }}
+      style={{
+        height: "100%",
+      }}
       onDragEnd={({ data }) =>
         setList(
           data.map((value) => {
@@ -43,15 +53,16 @@ const TodoList = ({
 };
 
 const Backlog = () => {
-  const [backlog, add, setBacklog] = useStore((state) => [
+  const [backlog, setBacklog] = useStore((state) => [
     state.backlog,
-    state.add,
     state.setBacklog,
   ]);
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <TopHeader />
-      <TodoList taskList={backlog} setList={setBacklog} />
+      <NestableScrollContainer>
+        <TodoList taskList={backlog} setList={setBacklog} />
+      </NestableScrollContainer>
     </SafeAreaView>
   );
 };
@@ -65,28 +76,33 @@ const Doing = () => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <TopHeader />
-      <TodoList taskList={doing} setList={setDoing} />
-
-      <Icon
-        name="add-circle-outline"
-        color={"black"}
-        size={36}
-        onPress={() => {
-          add({ name: "task", id: uuidv4() });
+      <NestableScrollContainer>
+        <TodoList taskList={doing} setList={setDoing} />
+      </NestableScrollContainer>
+      <View
+        style={{
+          paddingHorizontal: 60,
+          paddingVertical: 10,
+          flexDirection: "row",
+          flexWrap: "wrap",
+          justifyContent: "space-evenly",
         }}
-      />
+      >
+        <Icon
+          name="add-circle-outline"
+          color={"black"}
+          size={36}
+          onPress={() => {
+            add({ name: "task", id: uuidv4() });
+          }}
+        />
+      </View>
     </SafeAreaView>
   );
 };
 const Stack = createNativeStackNavigator();
 export default function App() {
   const layout = useWindowDimensions();
-
-  const [index, setIndex] = React.useState(0);
-  const [routes] = React.useState([
-    { key: "first", title: "First" },
-    { key: "second", title: "Second" },
-  ]);
 
   return (
     <NavigationContainer
