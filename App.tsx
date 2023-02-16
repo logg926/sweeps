@@ -61,6 +61,17 @@ const Backlog = () => {
     </SafeAreaView>
   );
 };
+const Done = () => {
+  const [done, setDone] = useStore((state) => [state.done, state.setDone]);
+  return (
+    <SafeAreaView style={{ flex: 1 }}>
+      <TopHeader />
+      <NestableScrollContainer>
+        <TodoList taskList={done} setList={setDone} />
+      </NestableScrollContainer>
+    </SafeAreaView>
+  );
+};
 
 const Doing = () => {
   const [doing, add, setDoing] = useStore((state) => [
@@ -117,7 +128,7 @@ export default function App() {
       >
         <Stack.Screen name={ROUTE.Backlog} component={Backlog} />
         <Stack.Screen name={ROUTE.Doing} component={Doing} />
-        <Stack.Screen name={ROUTE.Done} component={Backlog} />
+        <Stack.Screen name={ROUTE.Done} component={Done} />
       </Stack.Navigator>
     </NavigationContainer>
   );
