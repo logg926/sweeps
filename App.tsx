@@ -1,19 +1,26 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 
 import {
   DefaultTheme,
   NavigationContainer,
   useNavigation,
 } from "@react-navigation/native";
-import { SafeAreaView, useWindowDimensions, View } from "react-native";
+import {
+  SafeAreaView,
+  TextInput,
+  useWindowDimensions,
+  View,
+} from "react-native";
 import {
   NestableDraggableFlatList,
   NestableScrollContainer,
 } from "react-native-draggable-flatlist";
-import { v4 as uuidv4 } from "uuid";
 import { Item } from "./Item";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { ROUTE } from "./constant";
+import {
+  createNativeStackNavigator,
+  NativeStackNavigationProp,
+} from "@react-navigation/native-stack";
+import { ROUTE, YELLOW } from "./constant";
 import { TopHeader } from "./TopHeader";
 import { Task, TaskArray, useStore } from "./storage";
 import Icon from "react-native-vector-icons/Ionicons";
@@ -74,11 +81,8 @@ const Done = () => {
 };
 
 const Doing = () => {
-  const [doing, add, setDoing] = useStore((state) => [
-    state.doing,
-    state.add,
-    state.setDoing,
-  ]);
+  const navigation = useNavigation<NativeStackNavigationProp<any>>();
+  const [doing, setDoing] = useStore((state) => [state.doing, state.setDoing]);
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <TopHeader />
@@ -99,7 +103,7 @@ const Doing = () => {
           color={"black"}
           size={36}
           onPress={() => {
-            add({ name: "task", id: uuidv4() });
+            navigation.navigate(ROUTE.AddTodo);
           }}
         />
       </View>
@@ -107,10 +111,56 @@ const Doing = () => {
   );
 };
 
-const Stack = createNativeStackNavigator();
-export default function App() {
-  const layout = useWindowDimensions();
+// Add;
+const AddTodo = () => {
+  // add({ name: "task", id: uuidv4() });
+  // navigation.push();
+  useEffect(() => {
+    input.current?.focus();
+  });
+  const [taskName, onChangeTaskName] = React.useState("");
 
+  const input = useRef<TextInput>(null);
+  return (
+    <View>
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Icon
+          name="ellipse"
+          style={{
+            paddingLeft: 18,
+            paddingRight: 18,
+          }}
+          color={YELLOW}
+          size={20}
+        />
+        <TextInput
+          style={{
+            height: 40,
+            // margin: 12,
+            // padding: 10,
+            flex: 1,
+          }}
+          ref={input}
+          onChangeText={onChangeTaskName}
+          value={taskName}
+          placeholder="useless placeholder"
+          keyboardType="default"
+        />
+      </View>
+    </View>
+  );
+};
+
+const Stack = createNativeStackNavigator();
+
+// const RootStack = createStackNavigator();
+export default function App() {
   return (
     <NavigationContainer
       theme={{
@@ -129,9 +179,15 @@ export default function App() {
           animationDuration: 100,
         }}
       >
-        <Stack.Screen name={ROUTE.Backlog} component={Backlog} />
-        <Stack.Screen name={ROUTE.Doing} component={Doing} />
-        <Stack.Screen name={ROUTE.Done} component={Done} />
+        <Stack.Group>
+          <Stack.Screen name={ROUTE.Backlog} component={Backlog} />
+          <Stack.Screen name={ROUTE.Doing} component={Doing} />
+          {/* <Stack.Screen name={ROUTE.Add} component={Add} /> */}
+          <Stack.Screen name={ROUTE.Done} component={Done} />
+        </Stack.Group>
+        <Stack.Group screenOptions={{ presentation: "transparentModal" }}>
+          <Stack.Screen name={ROUTE.AddTodo} component={AddTodo} />
+        </Stack.Group>
       </Stack.Navigator>
     </NavigationContainer>
   );

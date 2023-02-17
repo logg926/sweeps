@@ -168,14 +168,15 @@ export const Item: RenderItem<Task> = ({ item, drag, isActive }) => {
               alignItems: "center",
             }}
           >
-            <View
+            <Icon
               style={{
                 paddingLeft: 18,
                 paddingRight: 18,
               }}
-            >
-              <Icon name="ellipse" color={color} size={20} />
-            </View>
+              name="ellipse"
+              color={color}
+              size={20}
+            />
             <Text style={styles.text}>{item.name}</Text>
           </View>
         </TouchableOpacity>

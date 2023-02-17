@@ -6,5 +6,6 @@ export const GREEN = "#4E937A"
 export const ROUTE = {
     Backlog: "Backlog",
     Doing: "Doing",
+    AddTodo: "AddTodo",
     Done: "Done"
 }
