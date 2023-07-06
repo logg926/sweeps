@@ -10,11 +10,11 @@ import { RenderItem, ScaleDecorator } from "react-native-draggable-flatlist";
 import Icon from "react-native-vector-icons/Ionicons";
 import Swipeable from "react-native-gesture-handler/Swipeable";
 import { RectButton } from "react-native-gesture-handler";
-import { GREEN, RED, ROUTE, YELLOW } from "./constant";
-import { Task, useStore } from "./storage";
+import { GREEN, RED, ROUTE, YELLOW } from "../../constant";
+import { Task, useStore } from "../../storage";
 import { useRoute } from "@react-navigation/native";
 
-export const Item: RenderItem<Task> = ({ item, drag, isActive }) => {
+export const ToDoListItem: RenderItem<Task> = ({ item, drag, isActive }) => {
   const route = useRoute();
   const [backlogToDoing, doingToDone, doingToBacklog, doneToDoing] = useStore(
     (state) => [
