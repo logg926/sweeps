@@ -2,7 +2,7 @@ import React from "react";
 import { View } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { GREEN, RED, ROUTE, YELLOW } from "./constant";
+import { GREEN, RED, ROUTE, YELLOW } from "../constant";
 import { useNavigation, useRoute } from "@react-navigation/native";
 
 export function TopHeader() {
