@@ -1,38 +1,42 @@
 import React, { useCallback, useMemo } from "react";
-import { View, SafeAreaView, Text } from "react-native";
+import { View, SafeAreaView, Text, Pressable } from "react-native";
 import { TIMES, Time } from "../constant";
-import { FlatList } from "react-native-gesture-handler";
+import { useStore } from "../storage";
+import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
+import { NavigationProps, RootStackParamList } from "../navigation/router";
+import { Ionicons, Feather, FontAwesome5 } from "@expo/vector-icons";
+import TimeCard from "../components/TimeCard";
+
+type ProfileScreenRouteType = RouteProp<RootStackParamList, "SelectTime">;
 
 const SelectTime = () => {
-  const TimeCard = useCallback((item: Time, index: number) => {
-    return (
-      <View
-        key={index}
-        style={[
-          {
-            borderColor: "red",
-            borderWidth: 1,
-            width: "30%",
-            height: "30%",
-            justifyContent: "center", // Center the child elements vertically
-            alignItems: "center", // Center the child elements horizontally
-            marginHorizontal: index % 3 == 1 ? 10 : 0,
-            marginVertical: Math.floor(index / 3) == 1 ? 10 : 0,
-          },
-        ]}
-      >
-        <Text style={[{ color: "white" }]}>{item.title}</Text>
-      </View>
-    );
-  }, []);
+  const navigation = useNavigation<NavigationProps>();
+  const route = useRoute<ProfileScreenRouteType>();
+
+  const { id, name } = route.params;
+
+  const [backlogToDoing] = useStore((state) => [state.doingToBacklog]);
+
+  const onSelectTimeHandler = useCallback(
+    (item: Time) => {
+      backlogToDoing({ id, name, dueTime: item.title });
+      navigation.goBack();
+    },
+    [navigation, backlogToDoing]
+  );
 
   return (
-    <SafeAreaView
+    <Pressable
       style={{
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
         backgroundColor: "white",
+      }}
+      onPress={() => {
+        navigation.reset({
+          routes: [{ name: "Doing" }],
+        });
       }}
     >
       <View
@@ -48,10 +52,17 @@ const SelectTime = () => {
           alignItems: "center",
         }}
       >
-        {TIMES.map(TimeCard)}
+        {TIMES.map((item, index) => (
+          <TimeCard
+            index={index}
+            item={item}
+            onSelectTimeHandler={onSelectTimeHandler}
+            key={index}
+          />
+        ))}
       </View>
-      <Text>Hold down to adjust time</Text>
-    </SafeAreaView>
+      <Text style={{ marginTop: 20 }}>Hold down to adjust time</Text>
+    </Pressable>
   );
 };
 

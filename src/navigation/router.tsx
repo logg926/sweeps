@@ -1,14 +1,32 @@
 import React from "react";
-import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import {
+  NavigationContainer,
+  DefaultTheme,
+  RouteProp,
+} from "@react-navigation/native";
+import {
+  NativeStackNavigationProp,
+  createNativeStackNavigator,
+} from "@react-navigation/native-stack";
 import { ROUTE } from "../constant";
 import BacklogScreen from "../screens/BackLog";
 import DoingScreen from "../screens/Doing";
 import DoneScreen from "../screens/Done";
-import AddToDoScreen from "../screens/AddToDo";
 import SelectTime from "../screens/SelectTime";
+import { Task } from "../storage";
 
-const Stack = createNativeStackNavigator();
+export type RootStackParamList = {
+  Backlog: undefined;
+  Doing: undefined;
+  AddToDo: undefined;
+  SelectTime: Task;
+  Done: undefined;
+};
+
+export type NavigationProps = NativeStackNavigationProp<RootStackParamList>;
+export type RouteProps = RouteProp<RootStackParamList>;
+
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const Router = () => {
   return (
@@ -36,9 +54,6 @@ const Router = () => {
           <Stack.Screen name={ROUTE.Done} component={DoneScreen} />
           <Stack.Screen name={ROUTE.SelectTime} component={SelectTime} />
         </Stack.Group>
-        {/* <Stack.Group screenOptions={{ presentation: "modal" }}>
-          <Stack.Screen name={ROUTE.AddTodo} component={AddToDoScreen} />
-        </Stack.Group> */}
       </Stack.Navigator>
     </NavigationContainer>
   );

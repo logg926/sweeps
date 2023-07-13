@@ -1,25 +1,34 @@
-import Icon from "react-native-vector-icons/Feather";
+import Ionicons from '@expo/vector-icons/Ionicons';
+import { RootStackParamList } from "./navigation/router";
+import { Component } from "react";
+import { IconProps } from "react-native-vector-icons/Icon";
 
 export const RED = "#ec6337";
 export const YELLOW = "#f2cb78";
 export const GREEN = "#4E937A"
 
-export const ROUTE = {
+interface ROUTE{
+    Backlog: keyof RootStackParamList ,
+    Doing: keyof RootStackParamList ,
+    AddTodo: keyof RootStackParamList ,
+    Done: keyof RootStackParamList ,
+    SelectTime:keyof RootStackParamList
+}
+
+export const ROUTE: ROUTE = {
     Backlog: "Backlog",
     Doing: "Doing",
-    AddTodo: "AddTodo",
-    Done: "Done",
-    SelectTime:"SelectTime"
+    AddTodo: "AddToDo",
+    SelectTime:'SelectTime',
+    Done:"Done"
 }
 
 export interface Time {
     title:string,
-    icon?:React.FC
 }
 
 export const TIMES: Time[] = [{
     title:'Later +3h',
-    
 },{
     title:'Tomorrow Eve',
    
