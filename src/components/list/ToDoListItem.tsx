@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -12,19 +12,20 @@ import Swipeable from "react-native-gesture-handler/Swipeable";
 import { RectButton } from "react-native-gesture-handler";
 import { GREEN, RED, ROUTE, YELLOW } from "../../constant";
 import { Task, useStore } from "../../storage";
-import { useRoute } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
+import { NavigationProps } from "../../navigation/router";
 
 export const ToDoListItem: RenderItem<Task> = ({ item, drag, isActive }) => {
+  const navigation = useNavigation<NavigationProps>();
   const route = useRoute();
-  const [backlogToDoing, doingToDone, doingToBacklog, doneToDoing] = useStore(
-    (state) => [
-      state.backlogToDoing,
-      state.doingToDone,
-      state.doingToBacklog,
-      state.doneToDoing,
-    ]
-  );
+  const [backlogToDoing, doingToDone, doneToDoing] = useStore((state) => [
+    state.backlogToDoing,
+    state.doingToDone,
+    state.doneToDoing,
+  ]);
   // const param = route.name === ROUTE.Backlog?{color: RED}
+
+  const [hasSwiped, setHasSwiped] = useState<boolean>(false);
 
   const {
     color,
@@ -56,7 +57,8 @@ export const ToDoListItem: RenderItem<Task> = ({ item, drag, isActive }) => {
           if (direction === "left") {
             doingToDone(item);
           } else {
-            doingToBacklog(item);
+            setHasSwiped(true);
+            navigation.navigate("SelectTime", item);
           }
         },
       }
@@ -86,6 +88,11 @@ export const ToDoListItem: RenderItem<Task> = ({ item, drag, isActive }) => {
                   outputRange: [-20, 0, 0, 1],
                   extrapolate: "clamp",
                 });
+
+                if (hasSwiped) {
+                  return null;
+                }
+
                 return (
                   <RectButton
                     style={{
@@ -122,17 +129,24 @@ export const ToDoListItem: RenderItem<Task> = ({ item, drag, isActive }) => {
                 dragX: Animated.AnimatedInterpolation<number>
               ) => {
                 const trans = dragX.interpolate({
-                  inputRange: [0, 50, 100, 101],
-                  outputRange: [-20, 0, 0, 1],
+                  inputRange: [-101, -100, -50, 0],
+                  outputRange: [-1, 0, 0, 20],
                   extrapolate: "clamp",
                 });
+
+                if (hasSwiped) {
+                  return null;
+                }
+
                 return (
                   <RectButton
                     style={{
                       flex: 1,
                       backgroundColor: swipeLeftColor,
                       justifyContent: "center",
+                      alignItems: "flex-end",
                     }}
+
                     // onPress={this.close}
                   >
                     <Animated.Text
