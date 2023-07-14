@@ -1,11 +1,11 @@
-import React, { useCallback, useMemo } from "react";
-import { View, SafeAreaView, Text, Pressable } from "react-native";
+import React, { useCallback } from "react";
+import { View, Text, Pressable } from "react-native";
 import { TIMES, Time } from "../constant";
 import { useStore } from "../storage";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { NavigationProps, RootStackParamList } from "../navigation/router";
-import { Ionicons, Feather, FontAwesome5 } from "@expo/vector-icons";
 import TimeCard from "../components/TimeCard";
+import { dateTitleToDateTime } from "../helpers/dateHelpers";
 
 type ProfileScreenRouteType = RouteProp<RootStackParamList, "SelectTime">;
 
@@ -15,11 +15,15 @@ const SelectTime = () => {
 
   const { id, name } = route.params;
 
-  const [backlogToDoing] = useStore((state) => [state.doingToBacklog]);
+  const [backlogToDoing, backlog] = useStore((state) => [
+    state.doingToBacklog,
+    state.backlog,
+  ]);
 
   const onSelectTimeHandler = useCallback(
     (item: Time) => {
-      backlogToDoing({ id, name, dueTime: item.title });
+      backlogToDoing({ id, name, dueTime: dateTitleToDateTime(item.title) });
+      console.log(backlog);
       navigation.goBack();
     },
     [navigation, backlogToDoing]

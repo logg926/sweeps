@@ -40,7 +40,7 @@ const Router = () => {
       }}
     >
       <Stack.Navigator
-        initialRouteName={ROUTE.Backlog}
+        initialRouteName={ROUTE.Doing}
         screenOptions={{
           headerShown: false,
           animation: "fade",

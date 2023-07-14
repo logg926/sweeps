@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -12,12 +12,8 @@ import Swipeable from "react-native-gesture-handler/Swipeable";
 import { RectButton } from "react-native-gesture-handler";
 import { GREEN, RED, ROUTE, YELLOW } from "../../constant";
 import { Task, useStore } from "../../storage";
-import {
-  useFocusEffect,
-  useNavigation,
-  useRoute,
-} from "@react-navigation/native";
-import { NavigationProps, RootStackParamList } from "../../navigation/router";
+import { useNavigation, useRoute } from "@react-navigation/native";
+import { NavigationProps } from "../../navigation/router";
 
 export const ToDoListItem: RenderItem<Task> = ({ item, drag, isActive }) => {
   const navigation = useNavigation<NavigationProps>();

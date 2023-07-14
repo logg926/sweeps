@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useRef, useState, useCallback } from "react";
 import { Pressable, TextInput, View, Text } from "react-native";
 import { YELLOW } from "../constant";
 import Icon from "react-native-vector-icons/Ionicons";

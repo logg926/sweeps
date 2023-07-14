@@ -1,7 +1,4 @@
-import Ionicons from '@expo/vector-icons/Ionicons';
 import { RootStackParamList } from "./navigation/router";
-import { Component } from "react";
-import { IconProps } from "react-native-vector-icons/Icon";
 
 export const RED = "#ec6337";
 export const YELLOW = "#f2cb78";
@@ -27,30 +24,32 @@ export interface Time {
     title:string,
 }
 
-export const TIMES: Time[] = [{
-    title:'Later +3h',
-},{
-    title:'Tomorrow Eve',
-   
-},{
-    title:'Tomorrow',
-   
-},{
-    title:'Monday',
-   
-},{
-    title:'This Weekend',
-   
-},{
-    title:'Next Week',
-   
-},{
-    title:'Unspecified',
-   
-},{
+export const TIMES: (Time)[] = [ 
+    {
+    title: 'Later +3h',
+  },
+  {
+    title: 'Tomorrow Eve',
+  },
+  {
+    title: 'Tomorrow',
+  },
+  {
+    title: 'Monday',
+  },
+  {
+    title: 'This Weekend',
+  },
+  {
+    title: 'Next Week',
+  },
+  {
+    title: 'Unspecified',
+  },
+  {
     title:'At Location',
-   
-},{
+  },
+  {
     title:'Pick A Date',
-   
-}]
+  }
+]

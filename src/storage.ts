@@ -4,7 +4,6 @@ import { persist, devtools, createJSONStorage } from 'zustand/middleware'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
-import { v4 as uuidv4 } from "uuid";
 // const storage = new MMKV()
 
 

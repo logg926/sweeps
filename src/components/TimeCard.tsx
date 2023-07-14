@@ -16,26 +16,37 @@ const TimeCard: React.FC<TimeCardProps> = ({
 }) => {
   const { title } = item;
 
-  const icon =
-    index == 0 ? (
-      <Feather name="coffee" color="red" size={35} />
-    ) : index == 1 ? (
-      <Feather name="moon" color="red" size={35} />
-    ) : index == 2 ? (
-      <Feather name="sun" color="red" size={35} />
-    ) : index == 3 ? (
-      <Feather name="file" color="red" size={35} />
-    ) : index == 4 ? (
-      <Ionicons name="ios-wine-outline" size={35} color="red" />
-    ) : index == 5 ? (
-      <FontAwesome5 name="dot-circle" size={35} color="red" />
-    ) : index == 6 ? (
-      <Ionicons name="rainy-outline" size={35} color="red" />
-    ) : index == 7 ? (
-      <Ionicons name="ios-location-outline" size={35} color="red" />
-    ) : (
-      <Feather name="calendar" size={35} color="red" />
-    );
+  let icon;
+
+  switch (index) {
+    case 0:
+      icon = <Feather name="coffee" color="red" size={35} />;
+      break;
+    case 1:
+      icon = <Feather name="moon" color="red" size={35} />;
+      break;
+    case 2:
+      icon = <Feather name="sun" color="red" size={35} />;
+      break;
+    case 3:
+      icon = <Feather name="file" color="red" size={35} />;
+      break;
+    case 4:
+      icon = <Ionicons name="ios-wine-outline" size={35} color="red" />;
+      break;
+    case 5:
+      icon = <FontAwesome5 name="dot-circle" size={35} color="red" />;
+      break;
+    case 6:
+      icon = <Ionicons name="rainy-outline" size={35} color="red" />;
+      break;
+    case 7:
+      icon = <Ionicons name="ios-location-outline" size={35} color="red" />;
+      break;
+    default:
+      icon = <Feather name="calendar" size={35} color="red" />;
+      break;
+  }
 
   return (
     <TouchableOpacity
